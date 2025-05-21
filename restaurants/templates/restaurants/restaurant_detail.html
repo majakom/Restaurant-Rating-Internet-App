@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ restaurant.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'restaurants/restaurant_detail.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="restaurant-name">{{ restaurant.name }}</h1>
+        <p><strong>Adres:</strong> {{ restaurant.address }}</p>
+        <p><strong>Typ kuchni:</strong> {{ restaurant.cuisine_type }}</p>
+        <p><strong>Średnia ocen:</strong> {{ restaurant.average_rating|floatformat:1 }}/5</p>
+
+        <h2>Komentarze</h2>
+        <ul class="comment-list">
+            {% for comment in restaurant.comments.all %}
+                <li class="comment-item">
+                    <strong>{{ comment.author }}</strong>: {{ comment.text }} ({{ comment.rating }}/5)
+                </li>
+            {% empty %}
+                <li class="no-comments">Brak komentarzy.</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'restaurant_list' %}" class="back-link">← Powrót do listy</a>
+    </div>
+</body>
+</html>

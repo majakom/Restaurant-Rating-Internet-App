@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Restauracje w pobliżu</title>
+    <link rel="stylesheet" href="{% static 'restaurants/nearby_restaurants.css' %}">
+</head>
+<body>
+
+    <h1>Restauracje w pobliżu</h1>
+
+    <form method="get" id="distanceForm">
+        <label for="distanceRange">
+            Promień wyszukiwania: <strong><span id="distanceValue">{{ distance|default:5 }}</span></strong> km
+        </label>
+        <input 
+            type="range" 
+            id="distanceRange" 
+            name="distance" 
+            min="1" 
+            max="100" 
+            value="{{ distance|default:5 }}" 
+            oninput="updateDistance()" 
+            onchange="submitForm()"
+        >
+    </form>
+
+    <hr>
+
+    {% if restaurants %}
+        {% for restaurant, dist in restaurants %}
+            <div class="restaurant">
+                <h2>{{ restaurant.name }}</h2>
+                <p><strong>Typ kuchni:</strong> {{ restaurant.cuisine_type }}</p>
+                <p><strong>Adres:</strong> {{ restaurant.address }}</p>
+                <p><strong>Odległość:</strong> {{ dist }} km</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Brak restauracji w pobliżu.</p>
+    {% endif %}
+
+    <script>
+        function updateDistance() {
+            const slider = document.getElementById("distanceRange");
+            const output = document.getElementById("distanceValue");
+            output.textContent = slider.value;
+        }
+        function submitForm() {
+            document.getElementById("distanceForm").submit();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+/* restaurant_list.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+
+.restaurant {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+button, input[type="submit"] {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+input[type="text"], select {
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+a.button-link {
+    text-decoration: none;
+}
+
+a.button-link > button {
+    margin-top: 10px;
+}
+
+.restaurant-list li a {
+    color: #3498db;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.restaurant-list li a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-form form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.filter-form input[type="text"],
+.filter-form select {
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filter-form button,
+.nearby-link button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.filter-form button:hover,
+.nearby-link button:hover {
+    background-color: #2980b9;
+}
+
+.nearby-link {
+    display: flex;
+    align-items: center;
+}
+
