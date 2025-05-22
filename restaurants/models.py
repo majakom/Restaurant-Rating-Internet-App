@@ -25,7 +25,6 @@ class Restaurant(models.Model):
                     self.latitude = location.latitude
                     self.longitude = location.longitude
             except (GeocoderTimedOut, GeocoderServiceError):
-                # Możesz dodać logowanie błędów lub inne działania
                 pass
         super().save(*args, **kwargs)
 
@@ -34,7 +33,12 @@ class Comment(models.Model):
     restaurant = models.ForeignKey(Restaurant, related_name='comments', on_delete=models.CASCADE)
     author = models.CharField(max_length=50)
     text = models.TextField()
-    rating = models.IntegerField()  # np. skala 1-5
+    rating = models.IntegerField() 
 
     def __str__(self):
         return f"{self.author} - {self.rating}/5"
+
+
+class MenuItem(models.Model):
+    name = models.CharField(max_length=255)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menuitem')

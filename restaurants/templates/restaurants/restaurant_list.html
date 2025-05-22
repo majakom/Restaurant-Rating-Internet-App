@@ -11,22 +11,29 @@
     <h1>Restauracje</h1>
 
     <div class="filter-container">
-        <div class="filter-form">
-            <form method="get">
-                <input type="text" name="search" placeholder="Szukaj po nazwie">
-                <select name="sort">
-                    <option value="asc">Sortuj A-Z</option>
-                    <option value="desc">Sortuj Z-A</option>
-                </select>
-                <button type="submit">Filtruj</button>
-            </form>
-        </div>
+        <form method="get" class="filter-form" action="{% url 'restaurant_list' %}">
+            <input type="text" name="search" placeholder="Szukaj po nazwie restauracji" value="{{ request.GET.search }}">
+            <input type="text" name="menu_search" placeholder="Szukaj po typie kuchni" value="{{ request.GET.menu_search }}">
+            <select name="sort">
+                <option value="asc" {% if request.GET.sort == 'asc' %}selected{% endif %}>Sortuj A-Z</option>
+                <option value="desc" {% if request.GET.sort == 'desc' %}selected{% endif %}>Sortuj Z-A</option>
+            </select>
 
-        <div class="nearby-link">
-            <a href="{% url 'nearby_restaurants' %}">
-                <button type="button">Znajdź restauracje w pobliżu</button>
-            </a>
-        </div>
+            
+            <input 
+                type="range" 
+                id="distanceRange" 
+                name="distance" 
+                min="0" 
+                max="20" 
+                value="{{ request.GET.distance|default:"" }}" 
+                oninput="updateDistance()"
+            >
+            <label for="distanceRange">
+                <strong><span id="distanceValue">{{ request.GET.distance|default:"5" }}</span></strong> km
+            </label>
+            <button type="submit">Filtruj</button>
+        </form>
     </div>
 
 
@@ -51,5 +58,22 @@
         <p>Brak restauracji.</p>
     {% endif %}
 
+    <script>
+        function updateDistance() {
+            const slider = document.getElementById("distanceRange");
+            const output = document.getElementById("distanceValue");
+            output.textContent = slider.value;
+        }
+
+        function submitForm() {
+            document.getElementById("filterForm").submit();
+        }
+
+        // Ustaw od razu wartość przy ładowaniu strony (na wszelki wypadek)
+        document.addEventListener("DOMContentLoaded", function() {
+            updateDistance();
+        });
+    </script>
 </body>
 </html>
+
