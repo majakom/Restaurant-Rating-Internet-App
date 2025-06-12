@@ -130,7 +130,7 @@ ul {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 60px; /* może być więcej, zależnie od wyglądu */
-    margin-right: 16px; /* <-- zwiększa odstęp od przycisku */
+    width: 60px; 
+    margin-right: 16px; 
     font-weight: bold;
 }

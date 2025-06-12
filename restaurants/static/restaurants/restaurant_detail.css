@@ -54,3 +54,11 @@ h1, h2 {
 .back-link:hover {
     color: #2980b9;
 }
+
+.restaurant-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+

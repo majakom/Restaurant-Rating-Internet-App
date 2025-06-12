@@ -8,23 +8,27 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="restaurant-name">{{ restaurant.name }}</h1>
-        <p><strong>Adres:</strong> {{ restaurant.address }}</p>
-        <p><strong>Typ kuchni:</strong> {{ restaurant.cuisine_type }}</p>
-        <p><strong>Średnia ocen:</strong> {{ restaurant.average_rating|floatformat:1 }}/5</p>
+        {% if restaurant.image %}
+            <img src="{{ restaurant.image.url }}" alt="Restaurant image" style="max-width: 400px;" />
+        {% endif %}
 
-        <h2>Komentarze</h2>
+        <h1 class="restaurant-name">{{ restaurant.name }}</h1>
+        <p><strong>Address:</strong> {{ restaurant.address }}</p>
+        <p><strong>Menu type:</strong> {{ restaurant.cuisine_type }}</p>
+        <p><strong>Average grading:</strong> {{ restaurant.average_rating|floatformat:1 }}/5</p>
+
+        <h2>Comments</h2>
         <ul class="comment-list">
             {% for comment in restaurant.comments.all %}
                 <li class="comment-item">
                     <strong>{{ comment.author }}</strong>: {{ comment.text }} ({{ comment.rating }}/5)
                 </li>
             {% empty %}
-                <li class="no-comments">Brak komentarzy.</li>
+                <li class="no-comments">No comments.</li>
             {% endfor %}
         </ul>
 
-        <a href="{% url 'restaurant_list' %}" class="back-link">← Powrót do listy</a>
+        <a href="{% url 'restaurant_list' %}" class="back-link">← Go back to the list</a>
     </div>
 </body>
 </html>

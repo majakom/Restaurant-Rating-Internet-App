@@ -3,20 +3,32 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Lista restauracji</title>
+    <title>Restaurant restaurant_list</title>
     <link rel="stylesheet" href="{% static 'restaurants/restaurant_list.css' %}">
 </head>
 <body>
-
-    <h1>Restauracje</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; background: #eee; padding: 10px;">
+        <div>
+            {% if user.is_authenticated %}
+            <span>Hello, {{ user.username }}! </span>
+            <a href="{% url 'logout' %}">Log out</a>
+            {% else %}
+            <a href="{% url 'login' %}">Log in</a> | <a href="{% url 'register' %}">Sign up</a>
+            {% endif %}
+        </div>
+        {% if user.is_authenticated %}
+            <a href="{% url 'restaurant_add' %}" style="background-color: #007bff; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">➕ Add a restaurant</a>
+        {% endif %}
+    </div>
+    <h1>Restaurants</h1>
 
     <div class="filter-container">
         <form method="get" class="filter-form" action="{% url 'restaurant_list' %}">
-            <input type="text" name="search" placeholder="Szukaj po nazwie restauracji" value="{{ request.GET.search }}">
-            <input type="text" name="menu_search" placeholder="Szukaj po typie kuchni" value="{{ request.GET.menu_search }}">
+            <input type="text" name="search" placeholder="Search by restaurant name" value="{{ request.GET.search }}">
+            <input type="text" name="menu_search" placeholder="Search by menu type" value="{{ request.GET.menu_search }}">
             <select name="sort">
-                <option value="asc" {% if request.GET.sort == 'asc' %}selected{% endif %}>Sortuj A-Z</option>
-                <option value="desc" {% if request.GET.sort == 'desc' %}selected{% endif %}>Sortuj Z-A</option>
+                <option value="asc" {% if request.GET.sort == 'asc' %}selected{% endif %}>Sort A-Z</option>
+                <option value="desc" {% if request.GET.sort == 'desc' %}selected{% endif %}>Sort Z-A</option>
             </select>
 
             
@@ -32,7 +44,7 @@
             <label for="distanceRange">
                 <strong><span id="distanceValue">{{ request.GET.distance|default:"5" }}</span></strong> km
             </label>
-            <button type="submit">Filtruj</button>
+            <button type="submit">Filter</button>
         </form>
     </div>
 
@@ -49,13 +61,13 @@
                                 {{ restaurant.name }}
                             </a>
                         </h2>
-                        <p><strong>Średnia ocen:</strong> {{ restaurant.average_rating|floatformat:1 }}/5.0</p>
+                        <p><strong>Average grading:</strong> {{ restaurant.average_rating|floatformat:1 }}/5.0</p>
                     </div>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>Brak restauracji.</p>
+        <p>No restaurants.</p>
     {% endif %}
 
     <script>

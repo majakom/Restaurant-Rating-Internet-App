@@ -1,7 +1,59 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from geopy.distance import distance as geopy_distance 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 from .models import Restaurant
 import requests
+from django.contrib.auth.models import User
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from .forms import RestaurantForm
+
+@login_required
+def restaurant_add(request):
+    if request.method == 'POST':
+        form = RestaurantForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant_list')
+    else:
+        form = RestaurantForm()
+    return render(request, 'restaurants/restaurant_form.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'registration/logout.html')
+
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        errors = []
+
+        if not username or not email or not password1 or not password2:
+            errors.append("Wszystkie pola są wymagane.")
+        if password1 != password2:
+            errors.append("Hasła nie są identyczne.")
+        if User.objects.filter(username=username).exists():
+            errors.append("Użytkownik o takiej nazwie już istnieje.")
+        if User.objects.filter(email=email).exists():
+            errors.append("Użytkownik o takim adresie email już istnieje.")
+
+        if errors:
+            return render(request, 'register.html', {'errors': errors})
+
+        # Jeśli nie ma błędów, tworzymy użytkownika
+        user = User.objects.create_user(username=username, email=email, password=password1)
+        user.save()
+        messages.success(request, "Rejestracja zakończona sukcesem. Możesz się teraz zalogować.")
+        return redirect('login')  # przekieruj na stronę logowania
+
+    return render(request, 'registration/register.html')
+
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

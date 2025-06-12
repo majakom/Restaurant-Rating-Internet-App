@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sign up page</title>
+    <link rel="stylesheet" href="{% static 'registration/register.css' %}">
+</head>
+<body>
+    <h2>Sign up</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <p>
+            <label for="id_username">Username:</label><br>
+            <input type="text" name="username" id="id_username" required>
+            {% if form.username.errors %}
+                <br><span style="color: red;">{{ form.username.errors.0 }}</span>
+            {% endif %}
+        </p>
+        
+        <p>
+            <label for="id_email">Email:</label><br>
+            <input type="email" name="email" id="id_email" required>
+            {% if form.email.errors %}
+                <br><span style="color: red;">{{ form.email.errors.0 }}</span>
+            {% endif %}
+        </p>
+        
+        <p>
+            <label for="id_password1">Password:</label><br>
+            <input type="password" name="password1" id="id_password1" required>
+            {% if form.password1.errors %}
+                <br><span style="color: red;">{{ form.password1.errors.0 }}</span>
+            {% endif %}
+        </p>
+        
+        <p>
+            <label for="id_password2">Repeat password:</label><br>
+            <input type="password" name="password2" id="id_password2" required>
+            {% if form.password2.errors %}
+                <br><span style="color: red;">{{ form.password2.errors.0 }}</span>
+            {% endif %}
+        </p>
+        
+        <button type="submit">Sign up</button>
+    </form>
+    <p>You have an account already? <a href="{% url 'login' %}">Log in</a></p>
+</body>
+</html>

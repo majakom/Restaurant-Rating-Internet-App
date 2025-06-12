@@ -1,13 +1,26 @@
 from django.db import models
 from geopy.geocoders import Nominatim
+from django.contrib.auth.models import User
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
+import PIL
 
 class Restaurant(models.Model):
+    CUISINE_CHOICES = [
+        ('polish', 'Polska'),
+        ('italian', 'Włoska'),
+        ('asian', 'Azjatycka'),
+        ('fastfood', 'Fast Food'),
+        ('vegan', 'Wegańska'),
+        ('other', 'Inna'),
+    ]
+     
     name = models.CharField(max_length=100)
     address = models.TextField()
     cuisine_type = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='restaurant_images/', blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)  
     longitude = models.FloatField(blank=True, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def average_rating(self):
         ratings = [comment.rating for comment in self.comments.all()]
@@ -39,6 +52,6 @@ class Comment(models.Model):
         return f"{self.author} - {self.rating}/5"
 
 
-class MenuItem(models.Model):
-    name = models.CharField(max_length=255)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menuitem')
+# class MenuItem(models.Model):
+#     name = models.CharField(max_length=255)
+#     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menuitem')

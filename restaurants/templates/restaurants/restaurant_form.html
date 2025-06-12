@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Add new restaurant</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'restaurants/restaurant_form.css' %}">
+</head>
+<body>
+    <h1>Add new restaurant</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="{% url 'restaurant_list' %}">Go back to main page</a></p>
+</body>
+</html>
